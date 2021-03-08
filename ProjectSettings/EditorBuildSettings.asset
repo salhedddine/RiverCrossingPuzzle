@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Projet/Scene/RiverScene.unity
+    guid: 8808b581f5012ba41839f897a09a0831
+  m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: dcc6b612fcd9f1742954ef45cb635187,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 4a86dbb9b1e91a04d820b6079e32f128,
+      type: 2}
