@@ -201,7 +201,7 @@ public class Farmer : MonoBehaviour
 
 
 
-        private void TryBank(Transform RiverBank)
+    private void TryBank(Transform RiverBank)
     {
         Vector3 relativePos = RiverBank.InverseTransformPoint(boat.transform.position);
         if (relativePos.x < 1.5)
@@ -209,7 +209,7 @@ public class Farmer : MonoBehaviour
             relativePos.x = -0.5f;
             relativePos.y = 2f;
 
-            transform.position = RiverBank.TransformPoint(relativePos);
+            //transform.position = RiverBank.TransformPoint(relativePos);
             boat.IsCurrying = false;
             IsCurried = false;
             gameObject.transform.SetParent(DefaultParent);
@@ -246,17 +246,19 @@ public class Farmer : MonoBehaviour
     // returns 1 if the farmer is in the river bank 1, and returns 2 if he is in the other bank.
     public static int NearestRiverBank(RiverBank[] RiverBanks, Vector3 objPos)
     {
-        Vector3 relativePos;
+        float resDistance = Vector3.Distance(RiverBanks[0].transform.position, objPos);
+        int index = 0;
 
         for (int i = 0; i < RiverBanks.Length; i++)
         {
-            relativePos = RiverBanks[i].transform.InverseTransformPoint(objPos);
-            if (relativePos.x < 2)
+            float distance = Vector3.Distance(RiverBanks[i].transform.position, objPos);
+            if (distance < resDistance)
             {
-                return i + 1;
+                resDistance = distance;
+                index = i;                    
             }
         }
-        return 0;
+        return index + 1;
     }
 
     private void DefineTargetBankForBoat()

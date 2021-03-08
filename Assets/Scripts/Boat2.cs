@@ -5,11 +5,6 @@ using UnityEngine.Playables;
 public class Boat2 : MonoBehaviour
 {
     // visible Properties
-    public Transform Motor;
-    public float SteerPower = 500f;
-    public float Power = 5f;
-    public float MaxSpeed = 10f;
-    public float Drag = 0.1f;
     public bool IsCurrying;
     public int targetRiverBank;
     public Farmer farmer;
@@ -36,7 +31,6 @@ public class Boat2 : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        StartRotation = Motor.localRotation;
         IsCurrying = false;
         targetIndex = 0;
         anim = gameObject.GetComponent<Animator>();
@@ -84,19 +78,6 @@ public class Boat2 : MonoBehaviour
             anim.SetFloat("Speed", changingAnimationSpeed);
         }
 
-        //var animDelay2 = animDelay1 + anim.GetCurrentAnimatorStateInfo(0).length;
-
-
-
-        //anim.SetFloat("Speed", changingAnimationSpeed);
-        var AA = anim.GetLayerIndex("BoatLeavingRiverBank");
-        var CC = anim.GetCurrentAnimatorStateInfo(AA);
-        CC = anim.GetNextAnimatorStateInfo(AA);
-        var a = anim.GetCurrentAnimatorStateInfo(0);
-
-        
-
-        //anim.Play("New State");
     }
 
     IEnumerator ChangeAnimationState(Animator animator, string newState, float delayTime)

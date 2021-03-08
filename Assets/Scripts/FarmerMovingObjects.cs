@@ -16,10 +16,11 @@ public class FarmerMovingObjects : MonoBehaviour
         IsWalking,
         IsBeingSitting,
         IsUping
+            
     }
 
     void Start()
-    {
+    {        
         anim = gameObject.GetComponent<Animator>();
     }
     private void FollowFarmer(Vector3 target)
