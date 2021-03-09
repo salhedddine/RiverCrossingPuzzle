@@ -270,11 +270,7 @@ public class Farmer : MonoBehaviour
     }
 
     public void FarmerEndTheBoatAnimation()
-    {
-
-        for (int i = 0; i < riverBanks.Length && boat.IsCurrying; i++)
-        {
-            TryBank(riverBanks[i].transform);
-        }
+    {            
+        TryBank(riverBanks[NearestRiverBank(riverBanks, transform.position) - 1].transform);
     }
 }
