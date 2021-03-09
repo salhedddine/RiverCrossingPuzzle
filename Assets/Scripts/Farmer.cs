@@ -65,21 +65,25 @@ public class Farmer : MonoBehaviour
 
         if (Vector3.Distance(transform.position, boat.transform.position) < 1.6f && !boat.IsCurrying && ((TheCurriedObject != null && distanceFarmerSelectedObject < limitDistance) || NearestRiverBank(riverBanks, boat.transform.position) != 1) && Input.GetKey("enter"))
         {
+            //To prevent the rigidbody of the farmer to interact with other layers. So the farmer can safely traverses to the other river bank
             var rigidbody = gameObject.GetComponent<Rigidbody>();
             rigidbody.isKinematic = true;
 
-            boat.IsCurrying = true;
-            gameObject.transform.SetParent(boat.transform);
-            float y = gameObject.transform.position.y + 0.1f;
-            gameObject.transform.localPosition = Vector3.zero;
-            var position = gameObject.transform.position;
+
+            // Giving the farmer a specific position on the boat
+            transform.SetParent(boat.transform);
+            float y = transform.position.y + 0.1f;
+            transform.localPosition = Vector3.zero;
+            var position = transform.position;
             position.y = y;
-            
+            transform.position = position;
+
             DefineTargetBankForBoat(); 
 
-            gameObject.transform.position = position;
-            IsCurried = true;
+            IsCurried = true; // When this is true, the farmer can not move while he is on the boat.
+            boat.IsCurrying = true;
 
+            // Giving the moving object a predefined position on the boat
             if (TheCurriedObject)
             {
                 TheCurriedObject.transform.SetParent(boat.transform);

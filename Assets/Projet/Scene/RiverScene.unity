@@ -4272,6 +4272,7 @@ GameObject:
   - component: {fileID: 828130145}
   - component: {fileID: 828130144}
   - component: {fileID: 828130147}
+  - component: {fileID: 828130148}
   m_Layer: 4
   m_Name: WaterColider
   m_TagString: Untagged
@@ -4332,6 +4333,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5961494, y: 0.46849298, z: 10.397112}
   m_Center: {x: 8.745518, y: -1.21, z: 4.698556}
+--- !u!65 &828130148
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828130143}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.5961494, y: 1.0627427, z: 4.6260986}
+  m_Center: {x: 8.745518, y: -0.44287515, z: 4.7687063}
 --- !u!1001 &832981308
 PrefabInstance:
   m_ObjectHideFlags: 0
