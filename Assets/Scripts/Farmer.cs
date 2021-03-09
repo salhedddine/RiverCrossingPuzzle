@@ -65,10 +65,13 @@ public class Farmer : MonoBehaviour
 
         if (Vector3.Distance(transform.position, boat.transform.position) < 1.6f && !boat.IsCurrying && ((TheCurriedObject != null && distanceFarmerSelectedObject < limitDistance) || NearestRiverBank(riverBanks, boat.transform.position) != 1) && Input.GetKey("enter"))
         {
+            InstallingOnTheBoat();
+        }
+        /*if (Vector3.Distance(transform.position, boat.transform.position) < 1.6f && !boat.IsCurrying && ((TheCurriedObject != null && distanceFarmerSelectedObject < limitDistance) || NearestRiverBank(riverBanks, boat.transform.position) != 1) && Input.GetKey("enter"))
+        {
             //To prevent the rigidbody of the farmer to interact with other layers. So the farmer can safely traverses to the other river bank
             var rigidbody = gameObject.GetComponent<Rigidbody>();
             rigidbody.isKinematic = true;
-
 
             // Giving the farmer a specific position on the boat
             transform.SetParent(boat.transform);
@@ -91,39 +94,110 @@ public class Farmer : MonoBehaviour
                 TheCurriedObject.transform.localPosition = TheCurriedObjectPos.localPosition;
                 TheCurriedObject.transform.rotation = new Quaternion();
             }
-        }
+        }*/
 
-        // To curry an object by selecting it using "enter" key.
+        // To carry an object by selecting it using "enter" key.
         if (Input.GetKey("enter"))
         {
             FarmerMovingObjects NMO = NearestMovingObject();
             if (Vector3.Distance(transform.position, NMO.transform.position) < 1f && !NMO.IsSelectedByFarmer)
             {
+                // To carry the nearest moving object.
                 NMO.farmer = this;
                 NMO.IsSelectedByFarmer = true;
                 TheCurriedObject = NMO;
+                /*
                 LogicalSequencesCheckAnimation(TheCurriedObject, true);
 
                 if (TheCurriedObject.tag != "Cabbage")
                     TheCurriedObject.GetComponent<Animator>().SetBool("IsHungry", false);
+                */
             }
 
         }
+
+        // To traverse the river if the boat is carring
+        if (Input.GetKey(KeyCode.P))
+            TraversingTheRiver();
 
         // When the famer exit the boat()
         if (Input.GetKey(KeyCode.H))
-        {
-            boat.manager.LogicalSequencesCheckWiningOrLossing();
-            // It was like this and because I would like to give the possiblity to the payer to deselect an object while is in one of the river banks
-            //            for (int i = 0; i < RiverBanks.Length && boat.IsCurrying; i++)
-            for (int i = 0; i < riverBanks.Length; i++)
-            {
-                if (TheCurriedObject)
-                    LogicalSequencesCheckAnimation(TheCurriedObject, false);
-                TryBank(riverBanks[i].transform);
-            }
-        }
+            FarmerExitsTheBoat();
     }
+
+    private void TraversingTheRiver()
+    {
+        boat.IsCurrying = true;
+    }
+
+    private void FarmerExitsTheBoat()
+    {
+        if (TheCurriedObject.tag != "Cabbage")
+        {
+            TheCurriedObject.animParameters = FarmerMovingObjects.AnimParameters.IsUping;
+            StartCoroutine(TheCurriedObject.SetBoolAnimation(TheCurriedObject.animParameters.ToString(), true, 0));
+            var animDelay = TheCurriedObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+
+            TheCurriedObject.animParameters = FarmerMovingObjects.AnimParameters.IsBeingSitting;
+            StartCoroutine(TheCurriedObject.SetBoolAnimation(TheCurriedObject.animParameters.ToString(), false, 0));
+
+            TheCurriedObject.animParameters = FarmerMovingObjects.AnimParameters.IsUping;
+            StartCoroutine(TheCurriedObject.SetBoolAnimation(TheCurriedObject.animParameters.ToString(), false, animDelay));
+        }
+
+        boat.manager.LogicalSequencesCheckWiningOrLossing();
+        // It was like this and because I would like to give the possiblity to the payer to deselect an object while is in one of the river banks
+        //            for (int i = 0; i < RiverBanks.Length && boat.IsCurrying; i++)
+        for (int i = 0; i < riverBanks.Length; i++)
+        {
+            if (TheCurriedObject)
+                LogicalSequencesCheckAnimation(TheCurriedObject, false);
+            TryBank(riverBanks[i].transform);
+        }
+
+    }
+
+    // This makes the boat siting. However, it does not trigger the animation of the boat traversing the river.
+    private void InstallingOnTheBoat()
+    {
+        //To prevent the rigidbody of the farmer to interact with other layers. So the farmer can safely traverses to the other river bank
+        var rigidbody = gameObject.GetComponent<Rigidbody>();
+        rigidbody.isKinematic = true;
+
+        // Giving the farmer a specific position on the boat
+        transform.SetParent(boat.transform);
+        var position = new Vector3(0, 0.5f, 0.1f);
+        transform.localPosition = position;
+
+        //DefineTargetBankForBoat();
+
+        IsCurried = true; // When this is true, the farmer can not move while he is on the boat.
+
+        // Giving the moving object a predefined position on the boat
+        if (TheCurriedObject)
+        {
+            TheCurriedObject.transform.SetParent(boat.transform);
+            var TheCurriedObjectPos = boat.transform.Find("MovingObejectSeat");
+            TheCurriedObject.transform.localPosition = TheCurriedObjectPos.localPosition;
+            TheCurriedObject.transform.rotation = new Quaternion();
+        }
+
+        // to lunch the animation of the wolf or goat being sitting 
+        if (TheCurriedObject && TheCurriedObject.tag != "Cabbage")
+        {
+            // Make the goat being sitting
+            TheCurriedObject.animParameters = FarmerMovingObjects.AnimParameters.IsBeingSitting;
+            StartCoroutine(TheCurriedObject.SetBoolAnimation(TheCurriedObject.animParameters.ToString(), true, 0));
+        }
+
+        // To lunch the hungry animation
+        LogicalSequencesCheckAnimation(TheCurriedObject, true);
+
+        if (TheCurriedObject.tag != "Cabbage")
+            TheCurriedObject.GetComponent<Animator>().SetBool("IsHungry", false);
+
+    }
+
 
     private FarmerMovingObjects CompareDistance(FarmerMovingObjects FMO1, FarmerMovingObjects FMO2)
     {
@@ -203,8 +277,6 @@ public class Farmer : MonoBehaviour
         return false;
     }
 
-
-
     private void TryBank(Transform RiverBank)
     {
         Vector3 relativePos = RiverBank.InverseTransformPoint(boat.transform.position);
@@ -263,14 +335,6 @@ public class Farmer : MonoBehaviour
             }
         }
         return index + 1;
-    }
-
-    private void DefineTargetBankForBoat()
-    {
-        if (NearestRiverBank(riverBanks, boat.transform.position) == 2)
-            boat.targetRiverBank = 1;
-        else
-            boat.targetRiverBank = 2;
     }
 
     public void FarmerEndTheBoatAnimation()

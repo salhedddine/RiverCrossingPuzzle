@@ -6,7 +6,6 @@ public class Boat2 : MonoBehaviour
 {
     // visible Properties
     public bool IsCurrying;
-    public int targetRiverBank;
     public Farmer farmer;
 
     [SerializeField]
@@ -44,8 +43,7 @@ public class Boat2 : MonoBehaviour
 
         if (IsCurrying)
         {
-            FollowPathBehaviour2();
-            //FollowPathBehaviour();
+            FollowPathBehaviour();
         }
 
         if (Input.GetKey(KeyCode.K))
@@ -56,16 +54,15 @@ public class Boat2 : MonoBehaviour
 
     }
 
-    private void FollowPathBehaviour2()
+    private void FollowPathBehaviour()
     {
         if (farmer.TheCurriedObject && farmer.TheCurriedObject.tag != "Cabbage")
-        { 
+        {
+            // Make the goat being sitting
             farmer.TheCurriedObject.animParameters = FarmerMovingObjects.AnimParameters.IsBeingSitting;
             StartCoroutine(farmer.TheCurriedObject.SetBoolAnimation(farmer.TheCurriedObject.animParameters.ToString(), true, 0));
+            
             Animator theCurriedObjectAnim = farmer.TheCurriedObject.GetComponent<Animator>();
-
-            var animDelay1 = theCurriedObjectAnim.GetCurrentAnimatorStateInfo(0).length;
-
             if (theCurriedObjectAnim.GetCurrentAnimatorStateInfo(0).IsTag("Sat"))
             { 
                 StartCoroutine(ChangeAnimationState(anim, LEAVING_RIVER_BANK, 0));
