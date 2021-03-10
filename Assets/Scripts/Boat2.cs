@@ -5,7 +5,8 @@ using UnityEngine.Playables;
 public class Boat2 : MonoBehaviour
 {
     // visible Properties
-    public bool IsCurrying;
+    public bool OrderBoatTogo;
+    public bool IsCarrying;
     public Farmer farmer;
 
     [SerializeField]
@@ -30,7 +31,8 @@ public class Boat2 : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody>();
-        IsCurrying = false;
+        OrderBoatTogo = false;
+        IsCarrying = false;
         targetIndex = 0;
         anim = gameObject.GetComponent<Animator>();
         changingAnimationSpeed = 1;
@@ -41,7 +43,7 @@ public class Boat2 : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (IsCurrying)
+        if (OrderBoatTogo)
         {
             FollowPathBehaviour();
         }
@@ -104,7 +106,6 @@ public class Boat2 : MonoBehaviour
             farmer.TheCurriedObject.animParameters = FarmerMovingObjects.AnimParameters.IsBeingSitting;
             StartCoroutine(farmer.TheCurriedObject.SetBoolAnimation(farmer.TheCurriedObject.animParameters.ToString(), false, 0));
             //StartCoroutine(ChangeAnimationState(anim, IDLE, 0));
-
         }
 
         farmer.FarmerEndTheBoatAnimation();

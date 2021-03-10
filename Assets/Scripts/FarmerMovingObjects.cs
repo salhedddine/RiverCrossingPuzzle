@@ -86,7 +86,7 @@ public class FarmerMovingObjects : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsSelectedByFarmer && !farmer.boat.IsCurrying)
+        if (IsSelectedByFarmer && !farmer.boat.OrderBoatTogo)
         {
             FollowFarmer(farmer.transform.position);
         }

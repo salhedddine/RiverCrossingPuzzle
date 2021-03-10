@@ -6,6 +6,7 @@ public class Manager : MonoBehaviour
 {
     public RiverBank[] riverBanks;
     public Farmer farmer;
+    public Boat2 boat;
     private FarmerMovingObjects goat;
     private FarmerMovingObjects wolf;
     private FarmerMovingObjects cabbage;
@@ -19,7 +20,7 @@ public class Manager : MonoBehaviour
     {        
         for (int i = 0; i < riverBanks.Length; i++)
         {
-            if (riverBanks[i].curringObjectsCount == 2)
+            if (riverBanks[i].curringObjectsCount == 2 && (i + 1 != Farmer.NearestRiverBank(riverBanks, farmer.transform.position)))
             {
                 InitializationMovingObjects();
                 // When there are a wolf + goat alones.
@@ -27,27 +28,16 @@ public class Manager : MonoBehaviour
                 Component[] farmerMovingObjects = riverBanks[i].GetComponentsInChildren(typeof(FarmerMovingObjects));
                 if (CheckExistanceOfGivenMovingObjectsName(tags, farmerMovingObjects))
                 {
-                    if (i + 1 == Farmer.NearestRiverBank(riverBanks, farmer.transform.position))
-                        if (Farmer.NearestRiverBank(riverBanks, goat.transform.position) == Farmer.NearestRiverBank(riverBanks, wolf.transform.position))
-                            wolf.GetComponent<Animator>().SetBool("IsHungry", true);
-                    else
-                    {
-                        timeSpentInSeconds = Time.time;
-                        print("Game Over! Time Spent: " + timeSpent);
-                    }
+                    timeSpentInSeconds = Time.time;
+                    print("Game Over! Time Spent: " + timeSpent);
                 }
 
                 // When there are cabbage + goat anlones.
                 tags = new string[] { "Cabbage", "Goat" };
                 if (CheckExistanceOfGivenMovingObjectsName(tags, farmerMovingObjects))
                 {
-                    if (Farmer.NearestRiverBank(riverBanks, cabbage.transform.position) == Farmer.NearestRiverBank(riverBanks, goat.transform.position))
-                        goat.GetComponent<Animator>().SetBool("IsHungry", true);
-                    else
-                    {
-                        timeSpentInSeconds = Time.time;
-                        print("Game Over! Time Spent: " + timeSpent);
-                    }
+                    timeSpentInSeconds = Time.time;
+                    print("Game Over! Time Spent: " + timeSpent);
                 }
 
             }
@@ -59,7 +49,33 @@ public class Manager : MonoBehaviour
             timeSpentInSeconds = Time.time;
             print("Congratulation!, Time Spent: " + timeSpent);
         }
+    }
 
+    // To check the logical sequences and lunch animation if there is a threat. 
+    public void LogicalSequencesCheckAnimation()
+    {
+        InitializationMovingObjects();
+
+        // Initializating Animation
+        wolf.GetComponent<Animator>().SetBool("IsHungry", false);
+        goat.GetComponent<Animator>().SetBool("IsHungry", false);
+
+        int nearestBank = Farmer.NearestRiverBank(riverBanks, farmer.transform.position);
+
+        if (riverBanks[nearestBank - 1].curringObjectsCount == 2 && boat.IsCarrying)
+        { 
+            // When there are a wolf + goat alones.
+            string[] tags = new string[] { "Wolf", "Goat" };
+            Component[] farmerMovingObjects = riverBanks[nearestBank - 1].GetComponentsInChildren(typeof(FarmerMovingObjects));
+        
+            if (CheckExistanceOfGivenMovingObjectsName(tags, farmerMovingObjects))
+                wolf.GetComponent<Animator>().SetBool("IsHungry", true);
+
+            // When there are cabbage + goat anlones.
+            tags = new string[] { "Cabbage", "Goat" };
+            if (CheckExistanceOfGivenMovingObjectsName(tags, farmerMovingObjects))
+                goat.GetComponent<Animator>().SetBool("IsHungry", true);
+        }
     }
 
     private bool CheckExistanceOfGivenMovingObjectsName(string[] tags, Component[] farmerMovingObjects)
@@ -84,18 +100,11 @@ public class Manager : MonoBehaviour
         InitializationMovingObjects();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     // Initialization of gameObjects of goat and Wolf
     private void InitializationMovingObjects()
     {
         goat = GameObject.FindGameObjectWithTag("Goat").GetComponent<FarmerMovingObjects>();
         wolf = GameObject.FindGameObjectWithTag("Wolf").GetComponent<FarmerMovingObjects>();
         cabbage = GameObject.FindGameObjectWithTag("Cabbage").GetComponent<FarmerMovingObjects>();
-
-
     }
 }

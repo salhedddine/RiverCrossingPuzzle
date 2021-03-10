@@ -1711,8 +1711,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8c2130a7bacf049883aa855809c5a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsCurrying: 0
-  targetRiverBank: 0
+  OrderBoatTogo: 0
+  IsCarrying: 0
   farmer: {fileID: 5946915001383992890}
   checkpoints:
   - {fileID: 0}
@@ -4314,7 +4314,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 828130143}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.87, y: 1.4406333, z: -4.72}
+  m_LocalPosition: {x: -8.87, y: 1.5706333, z: -4.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -8754,7 +8754,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f4d68b67864cecb42ac28fb67c1e22d7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.62
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f4d68b67864cecb42ac28fb67c1e22d7,
         type: 3}
@@ -10644,7 +10644,7 @@ PrefabInstance:
     - target: {fileID: 8939573818971503741, guid: 11430ef6422a2bf43b5f5373d633a8bc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.26
+      value: 0.39
       objectReference: {fileID: 0}
     - target: {fileID: 8939573818971503741, guid: 11430ef6422a2bf43b5f5373d633a8bc,
         type: 3}
