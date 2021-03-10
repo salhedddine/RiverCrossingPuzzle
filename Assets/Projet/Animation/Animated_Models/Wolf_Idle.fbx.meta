@@ -6,12 +6,7 @@ ModelImporter:
   - first:
       74: 1342082435625897773
     second: Armature_Wolf|Idle_Wolf
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: M_Wolf
-    second: {fileID: 2100000, guid: 7d4ce5ff6e760d843bfcfe9f7409d9dd, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0

@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - PartDone
+  - Goat
+  - Wolf
+  - Seat
+  - Cabbage
   layers:
   - Default
   - TransparentFX
