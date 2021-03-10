@@ -9961,6 +9961,7 @@ MonoBehaviour:
   IsCurried: 0
   EnterRiverArea: 0
   boat: {fileID: 438438322}
+  manager: {fileID: 0}
   CurringObjects:
   - {fileID: 0}
   - {fileID: 0}
@@ -11495,6 +11496,7 @@ MonoBehaviour:
   IsCurried: 0
   EnterRiverArea: 0
   boat: {fileID: 438438322}
+  manager: {fileID: 8357880527689867393}
   CurringObjects:
   - {fileID: 1842023269}
   - {fileID: 730993152}
@@ -15299,6 +15301,7 @@ MonoBehaviour:
   - {fileID: 8777722958033395089}
   - {fileID: 2288375634099271331}
   farmer: {fileID: 5946915001383992890}
+  boat: {fileID: 438438322}
 --- !u!1 &8357880527689867406
 GameObject:
   m_ObjectHideFlags: 0
