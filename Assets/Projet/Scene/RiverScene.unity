@@ -10954,7 +10954,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &2128744640561459208
 MonoBehaviour:
@@ -14979,7 +14979,7 @@ PrefabInstance:
     - target: {fileID: 3341126971757712309, guid: 642fe00cab6ffb140ab748fd76d1c412,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8881391049922553331, guid: 642fe00cab6ffb140ab748fd76d1c412,
         type: 3}
@@ -15824,7 +15824,7 @@ MonoBehaviour:
   boat: {fileID: 1090175474}
   manager: {fileID: 4248419268317800869}
   CurringObjects:
-  - {fileID: 919132147825963708}
+  - {fileID: 0}
   - {fileID: 6857704344329732792}
   - {fileID: 3843739131800677918}
   TheCurriedObject: {fileID: 0}
