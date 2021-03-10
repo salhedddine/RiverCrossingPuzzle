@@ -9,7 +9,12 @@ ModelImporter:
   - first:
       74: -2891815541882942716
     second: Armature_Goat|SK_Goat|idle2_CINEMA_4D_Main|.001
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Goat
+    second: {fileID: 2100000, guid: 2348497287878e04484ff9ee00d3a643, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
