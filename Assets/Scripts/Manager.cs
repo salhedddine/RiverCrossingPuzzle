@@ -1,9 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
+    public GameObject RayInteractor;
+    public GameObject gameOverPanelGoat;
+    public GameObject gameOverPanelCabbage;
+    public GameObject victoyPanel;
     public RiverBank[] riverBanks;
     public Farmer farmer;
     public Boat2 boat;
@@ -11,6 +16,7 @@ public class Manager : MonoBehaviour
     private FarmerMovingObjects wolf;
     private FarmerMovingObjects cabbage;
     private float timeSpentInSeconds;
+
     public float timeSpent {
         get { return timeSpentInSeconds; }
     }
@@ -29,7 +35,10 @@ public class Manager : MonoBehaviour
                 if (CheckExistanceOfGivenMovingObjectsName(tags, farmerMovingObjects))
                 {
                     timeSpentInSeconds = Time.time;
+                    gameOverPanelGoat.SetActive(true);
+                    RayInteractor.SetActive(true);
                     print("Game Over! Time Spent: " + timeSpent);
+                    Time.timeScale = 0;
                 }
 
                 // When there are cabbage + goat anlones.
@@ -38,6 +47,9 @@ public class Manager : MonoBehaviour
                 {
                     timeSpentInSeconds = Time.time;
                     print("Game Over! Time Spent: " + timeSpent);
+                    gameOverPanelCabbage.SetActive(true);
+                    RayInteractor.SetActive(true);
+                    Time.timeScale = 0;
                 }
 
             }
@@ -48,6 +60,11 @@ public class Manager : MonoBehaviour
         {
             timeSpentInSeconds = Time.time;
             print("Congratulation!, Time Spent: " + timeSpent);
+            victoyPanel.SetActive(true);
+            RayInteractor.SetActive(true);
+            float Chrono = Time.deltaTime;
+            if(Chrono > 4)
+                Time.timeScale = 0;
         }
     }
 

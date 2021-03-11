@@ -9,6 +9,7 @@ public class FarmerMovingObjects : MonoBehaviour
     public Vector3 GivenHomePosInRiverBank2;
     private Animator anim;
     public AnimParameters animParameters;
+    public bool IsIntractable;
 
     // Enem of different animation parameters
     public enum AnimParameters
@@ -16,12 +17,13 @@ public class FarmerMovingObjects : MonoBehaviour
         IsWalking,
         IsBeingSitting,
         IsUping
-            
+
     }
 
     void Start()
-    {        
+    {
         anim = gameObject.GetComponent<Animator>();
+        IsIntractable = true;
     }
     public virtual void FollowFarmer(Vector3 target)
     {
@@ -32,9 +34,9 @@ public class FarmerMovingObjects : MonoBehaviour
         float step = speed * Time.deltaTime; // calculate distance to move
         float distance = Vector3.Distance(transform.position, target);
         if (distance > limitDistance)
-        { 
+        {
             transform.position = Vector3.MoveTowards(transform.position, target, step);
-            
+
             animParameters = AnimParameters.IsWalking;
             StartCoroutine(SetBoolAnimation(animParameters.ToString(), true, 0));
         }
@@ -63,11 +65,12 @@ public class FarmerMovingObjects : MonoBehaviour
             {
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
             }
-        }else
+        }
+        else
         {
             if (distance > limitDistance)
             {
-                Vector3 targetDirection = target - transform.position;
+                Vector3 targetDirection = farmer.transform.position - transform.position;
                 Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, singleStep, 0.0f);
                 transform.rotation = Quaternion.LookRotation(newDirection);
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
@@ -86,14 +89,16 @@ public class FarmerMovingObjects : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (IsSelectedByFarmer && !farmer.boat.OrderBoatTogo)
+        if (IsIntractable)
         {
-            FollowFarmer(farmer.transform.position);
+            if (IsSelectedByFarmer && !farmer.boat.OrderBoatTogo)
+            {
+                FollowFarmer(farmer.transform.position);
+            }
+
+            if (GivenHomePosInRiverBank2 != Vector3.zero && !IsSelectedByFarmer)
+                FollowFarmer(GivenHomePosInRiverBank2);
         }
-
-        if (GivenHomePosInRiverBank2 != Vector3.zero && !IsSelectedByFarmer)
-            FollowFarmer(GivenHomePosInRiverBank2);
-
     }
 
     public IEnumerator SetBoolAnimation(string name, bool value, float delayTime)

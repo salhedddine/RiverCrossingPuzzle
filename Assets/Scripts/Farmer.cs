@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR;
 
 public class Farmer : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Farmer : MonoBehaviour
     public FarmerMovingObjects TheCurriedObject;
     public RiverBank[] riverBanks;
     private Transform DefaultParent;
+    private InputDevice targertDevice;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +23,24 @@ public class Farmer : MonoBehaviour
         DefaultParent = transform.parent;
         boat.farmer = this;
         InitializePositionsOfCurringObjects();
+        DeviceInitialization();
+    }
+
+    private void DeviceInitialization()
+    {
+        List<InputDevice> devices = new List<InputDevice>();
+        InputDeviceCharacteristics rightControllerCharacteristics = InputDeviceCharacteristics.Right | InputDeviceCharacteristics.Controller;
+        InputDevices.GetDevicesWithCharacteristics(rightControllerCharacteristics, devices);
+
+        foreach (var item in devices)
+        {
+            Debug.Log(item.name + item.characteristics);
+        }
+
+        if (devices.Count > 0)
+        {
+            targertDevice = devices[0];
+        }
     }
 
     private void InitializePositionsOfCurringObjects()
@@ -40,6 +60,10 @@ public class Farmer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        targertDevice.TryGetFeatureValue(CommonUsages.primaryButton, out bool primaryButtonValue);
+        targertDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool secondaryButtonValue);
+        targertDevice.TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerButtonValue);
+
         float moveSpeed = 2f;
         // Farmer can move when he is not in the boat.
         if (!IsCurried && !EnterRiverArea)
@@ -66,19 +90,19 @@ public class Farmer : MonoBehaviour
 
         if (Vector3.Distance(transform.position, boat.transform.position) < 1.6f && !boat.OrderBoatTogo
             && ((TheCurriedObject != null && distanceFarmerSelectedObject < limitDistance) || NearestRiverBank(riverBanks, boat.transform.position) != 1) 
-            && Input.GetKey("enter"))
+            && primaryButtonValue)
         {
             InstallingOnTheBoat();
         }
 
         // To traverse the river if the boat is carring
-        if (boat.IsCarrying && Input.GetKey(KeyCode.P))
+        if (boat.IsCarrying && triggerButtonValue)
         { 
             TraversingTheRiver();
         }
 
         // To carry an object by selecting it using "enter" key.
-        if (Input.GetKey("enter"))
+        if (primaryButtonValue)
         {
             FarmerMovingObjects NMO = NearestMovingObject();
             if (Vector3.Distance(transform.position, NMO.transform.position) < 1f && !NMO.IsSelectedByFarmer)
@@ -98,7 +122,7 @@ public class Farmer : MonoBehaviour
         }
 
         // When the famer exit the boat()
-        if (Input.GetKey(KeyCode.H))
+        if (secondaryButtonValue && boat.IsCarrying)
             FarmerExitsTheBoat();
     }
 
